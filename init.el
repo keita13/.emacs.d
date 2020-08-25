@@ -195,7 +195,7 @@ The description of ARG is in `neo-buffer--execute'."
  '(doom-themes-enable-italic t)
  '(package-selected-packages
    (quote
-    (counsel cmake-mode undo-tree neotree smart-mode-line hide-mode-line minimap doom-themes doom use-package doom-modeline imenu-list highlight-indent-guides package-utils auto-complete-c-headers auto-complete rainbow-delimiters))))
+    (eshell-fringe-status counsel cmake-mode undo-tree neotree smart-mode-line hide-mode-line minimap doom-themes doom use-package doom-modeline imenu-list highlight-indent-guides package-utils auto-complete-c-headers auto-complete rainbow-delimiters))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -347,16 +347,29 @@ The description of ARG is in `neo-buffer--execute'."
   ;; アクティベート
   (counsel-mode 1))
 
-
-
-;;eshellの設定
+;;popwin
 (add-to-list 'load-path "~/.emacs.d/elpa/popwin")
 (require 'popwin)
 (popwin-mode 1)
 (setq pop-up-windows nil)
-;;(setq display-buffer-function 'popwin:display-buffer)
+;;(setq display-buffer-function 'popwin:display-buffer) ;;old
 
 (setq popwin:popup-window-position 'bottom)
+
+;;eshellの設定
+(global-set-key (kbd "C-c e") 'eshell)
+(global-set-key (kbd "C-c t") '(lambda()
+                          (interactive)
+                          (if (get-buffer "*ansi-term*")
+                              (switch-to-buffer "*ansi-term*")
+                            (ansi-term "bash")
+
+			    )))
+
+(add-to-list 'popwin:special-display-config
+	     '("*ansi-term*" :regexp t :dedicated t :position bottom
+	       :height 0.3))
+
 
 (defun eshell-on-current-dir (&optional arg)
   "invoke eshell and cd to current directory"
@@ -371,10 +384,27 @@ The description of ARG is in `neo-buffer--execute'."
 (add-to-list 'popwin:special-display-config
              '("\\`\\*eshell" :regexp t :dedicated t :position bottom
                :height 0.3))
-(global-set-key (kbd "C-c C-e") 'eshell)
 
+(add-hook 'eshell-mode-hook ' eshell-fringe-status-mode)
 
 ;; load environment value
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
+
+(add-to-list 'popwin:special-display-config
+             '("*undo-tree*" :regexp t :dedicated t :position bottom
+               :height 0.3))
+
+(defun revert-buffer-no-confirm (&optional force-reverting)
+  "Interactive call to revert-buffer. Ignoring the auto-save
+ file and not requesting for confirmation. When the current buffer
+ is modified, the command refuses to revert it, unless you specify
+ the optional argument: force-reverting to true."
+  (interactive "P")
+  ;;(message "force-reverting value is %s" force-reverting)
+  (if (or force-reverting (not (buffer-modified-p)))
+      (revert-buffer :ignore-auto :noconfirm)
+    (error "The buffer has been modified")))
+
+(global-set-key (kbd "C-c r") 'revert-buffer-no-confirm)
