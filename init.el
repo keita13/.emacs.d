@@ -270,10 +270,10 @@ The description of ARG is in `neo-buffer--execute'."
 
 (global-set-key "\C-h" `delete-backward-char)
 
-(global-set-key (kbd "C-c C-b")  'windmove-left)
-(global-set-key (kbd "C-c C-n")  'windmove-down)
-(global-set-key (kbd "C-c C-p")    'windmove-up)
-(global-set-key (kbd "C-c C-f") 'windmove-right)
+(global-set-key (kbd "C-c b") 'windmove-left)
+(global-set-key (kbd "C-c n") 'windmove-down)
+(global-set-key (kbd "C-c p") 'windmove-up)
+(global-set-key (kbd "C-c f") 'windmove-right)
 
 
 (require 'undo-tree)
