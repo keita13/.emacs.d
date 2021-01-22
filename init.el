@@ -1,4 +1,3 @@
-
 (require 'package)
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 ;;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
@@ -195,7 +194,7 @@ The description of ARG is in `neo-buffer--execute'."
  '(doom-themes-enable-italic t)
  '(package-selected-packages
    (quote
-    (eshell-fringe-status counsel cmake-mode undo-tree neotree smart-mode-line hide-mode-line minimap doom-themes doom use-package doom-modeline imenu-list highlight-indent-guides package-utils auto-complete-c-headers auto-complete rainbow-delimiters))))
+    (all-the-icons-ivy treemacs-all-the-icons eshell-fringe-status counsel cmake-mode undo-tree neotree smart-mode-line hide-mode-line minimap doom-themes doom use-package doom-modeline imenu-list highlight-indent-guides package-utils auto-complete-c-headers auto-complete rainbow-delimiters))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -408,3 +407,37 @@ The description of ARG is in `neo-buffer--execute'."
     (error "The buffer has been modified")))
 
 (global-set-key (kbd "C-c r") 'revert-buffer-no-confirm)
+
+;; set eshell aliases
+
+(setq eshell-command-aliases-list
+      (append
+       (list
+	(list "ls" "ls --color=auto")
+        (list "ll" "ls -ltr")
+        (list "la" "ls -a")
+	(list "grep" "grep --color=auto")
+	(list "fgrep" "fgrep --color=auto")
+	(list "egrep" "egrep --color=auto")
+	;; (list "o" "xdg-open")
+        (list "emacs" "find-file $1")
+	;; (list "m" "find-file $1")
+	;; (list "mc" "find-file $1")
+	;; (list "d" "dired .")
+        ;;(list "l" "eshell/less $1")
+	)
+       )
+      )
+
+;; sync with x clipboard
+(unless window-system
+    (defun xsel-cut-function (text &optional push)
+      (with-temp-buffer
+    (insert text)
+    (call-shell-region (point-min) (point-max) "env $(tmux showenv DISPLAY) xsel -bi")))
+    (defun xsel-paste-function()
+      (let ((xsel-output (shell-command-to-string "env $(tmux showenv DISPLAY) xsel --clipboard --output")))
+    (unless (string= (car kill-ring) xsel-output)
+      xsel-output )))
+    (setq interprogram-cut-function 'xsel-cut-function)
+    (setq interprogram-paste-function 'xsel-paste-function))
