@@ -13,7 +13,7 @@
 (setq initial-scratch-message nil)
 ;;Mode
 (use-package ghub)
-(add-to-list 'load-path "~/.emacs.d/elpa/all-the-icons")
+(add-to-list 'load-path "~/.emacs.d/elpa/all-the-icons.el")
 (use-package all-the-icons
   :custom
   (all-the-icons-scale-factor 1.0))
