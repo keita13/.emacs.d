@@ -17,7 +17,7 @@
 (use-package all-the-icons
   :custom
   (all-the-icons-scale-factor 1.0))
-(add-to-list 'load-path "~/.emacs.d/elpa/doom-themes")
+(add-to-list 'load-path "~/.emacs.d/elpa/emacs-doom-themes")
 (use-package doom-themes
   :custom
   (doom-themes-enable-italic t)

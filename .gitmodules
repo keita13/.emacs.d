@@ -1,3 +1,6 @@
 [submodule "elpa/all-the-icons.el"]
 	path = elpa/all-the-icons.el
 	url = https://github.com/domtronn/all-the-icons.el
+[submodule "elpa/emacs-doom-themes"]
+	path = elpa/emacs-doom-themes
+	url = https://github.com/hlissner/emacs-doom-themes
