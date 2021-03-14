@@ -294,6 +294,7 @@ The description of ARG is in `neo-buffer--execute'."
 ;; 各ファイルによってテンプレートを切り替える
 (setq auto-insert-alist
       (nconc '(
+	       ("\\.c$" . ["template.c" my-template])
                ("\\.cpp$" . ["template.cpp" my-template])
                ("\\.h$"   . ["template.h" my-template])
                ) auto-insert-alist))
@@ -301,9 +302,14 @@ The description of ARG is in `neo-buffer--execute'."
 
 ;; ここが腕の見せ所
 (defvar template-replacements-alists
-  '(("%file%"             . (lambda () (file-name-nondirectory (buffer-file-name))))
-    ("%file-without-ext%" . (lambda () (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
-    ("%include-guard%"    . (lambda () (format "__SCHEME_%s__" (upcase (file-name-sans-extension (file-name-nondirectory buffer-file-name))))))))
+  '(
+    ("${file_name}"               . (lambda () (file-name-nondirectory (buffer-file-name))))
+    ("${date}"                    . (lambda () (format-time-string "%Y/%m/%d" (current-time))))
+    ("${user}"                    . (lambda () (user-full-name)))
+    ("${file_base}"               . (lambda () (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
+    ("${include_guard_symbol}"    . (lambda () (format "%s_H_" (upcase (file-name-sans-extension (file-name-nondirectory buffer-file-name))))))
+    )
+  )
 
 (defun my-template ()
   (time-stamp)
