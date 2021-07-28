@@ -3,4 +3,5 @@
 !/README.md
 !/.gitignore
 !/init.el
+!/shellenv.el
 !/elpa/**
