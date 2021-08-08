@@ -1,1 +1,1 @@
-(setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games")
+(setenv "PATH" "/home/keita/.pyenv/shims:/home/keita/.pyenv/bin:/home/keita/.cargo/bin:/opt/ros/melodic/bin:/home/keita/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin")
